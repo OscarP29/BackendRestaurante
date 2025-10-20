@@ -7,7 +7,7 @@ import com.osu.proyecto_restaurante.entitys.PlatoEntity;
 
 public interface PlatoMaperRepository {
     public PlatosEntityDomain convertirADominio(PlatoEntity platoEntity);
-    public PlatoEntity convertirAEntidad(PlatosEntityDomain platosEntityDomain,int id_categoria);
+    public PlatoEntity convertirAEntidad(PlatosEntityDomain platosEntityDomain);
     public List<PlatosEntityDomain> convertirListADominio(List<PlatoEntity> platoEntities);
     public List<PlatoEntity> convertirListAEntidad(List<PlatosEntityDomain> platosEntityDomains);
 }

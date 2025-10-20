@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.osu.proyecto_restaurante.UserCases.Mapeadores.Interfaces.PlatosMapeadorUserCase;
 import com.osu.proyecto_restaurante.domain.entityDomain.Platos.CategoriaPlatoEntityDomain;
 import com.osu.proyecto_restaurante.domain.entityDomain.Platos.PlatosEntityDomain;
+import com.osu.proyecto_restaurante.entrypoint.DTOs.Entrada.PlatoEntradaDTO;
 import com.osu.proyecto_restaurante.entrypoint.DTOs.Salida.CategoriasPlatoSalidaDTO;
 import com.osu.proyecto_restaurante.entrypoint.DTOs.Salida.PlatosSalidaDTO;
 
@@ -39,6 +40,17 @@ public class PlatosMapeadorUserCaseImp implements PlatosMapeadorUserCase {
         return categoriaPlatoEntityDomains.stream()
                 .map(this::convertirCategoriaDTO)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public PlatosEntityDomain convertirADominio(PlatoEntradaDTO platoEntradaDTO,int id_categoria) {
+        PlatosEntityDomain platosEntityDomain = new PlatosEntityDomain();
+        platosEntityDomain.setId_plato(platoEntradaDTO.getId_plato());
+        platosEntityDomain.setNombre_plato(platoEntradaDTO.getNombre_plato());
+        platosEntityDomain.setDescripcion_plato(platoEntradaDTO.getDescripcion_plato());
+        platosEntityDomain.setId_categoria(id_categoria);
+        platosEntityDomain.setPrecio_plato(platoEntradaDTO.getPrecio_plato());
+        return platosEntityDomain;
     }
 
 

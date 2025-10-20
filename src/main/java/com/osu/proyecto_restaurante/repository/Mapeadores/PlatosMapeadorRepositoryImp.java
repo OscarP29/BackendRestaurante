@@ -24,12 +24,12 @@ public class PlatosMapeadorRepositoryImp implements PlatoMaperRepository {
     }
 
     @Override
-    public PlatoEntity convertirAEntidad(PlatosEntityDomain platosEntityDomain, int id_categoria) {
+    public PlatoEntity convertirAEntidad(PlatosEntityDomain platosEntityDomain) {
         PlatoEntity platoEntity = new PlatoEntity();
         platoEntity.setId_plato(platosEntityDomain.getId_plato());
         platoEntity.setNombre_plato(platosEntityDomain.getNombre_plato());
         platoEntity.setDescripcion_plato(platosEntityDomain.getDescripcion_plato());
-        platoEntity.setId_categoria(id_categoria);
+        platoEntity.setId_categoria(platosEntityDomain.getId_categoria());
         platoEntity.setPrecio_plato(platosEntityDomain.getPrecio_plato());
         return platoEntity;
         

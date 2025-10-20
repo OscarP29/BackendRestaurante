@@ -34,22 +34,26 @@ public class PlatosRepository implements PlatosDomain{
 
     private final RowMapper<PlatoEntity> platoMapper = this::mapeadorPlatoEntity;
     @Override
-    public void InsertarPlato(com.osu.proyecto_restaurante.domain.entityDomain.Platos.PlatosEntityDomain platosEntityDomain, int id_categoria) {
+    public boolean InsertarPlato(PlatosEntityDomain platosEntityDomain) {
         String sql = "insert into plato(descripcion_plato,nombre_plato,id_categoria,precio_plato) values(?,?,?,?);";
-        PlatoEntity platoEntity = platoMaperRepository.convertirAEntidad(platosEntityDomain, id_categoria);
-        jdbcTemplate.update(sql, platoEntity.getDescripcion_plato(), platoEntity.getNombre_plato(), platoEntity.getId_categoria(), platoEntity.getPrecio_plato());
+        PlatoEntity platoEntity = platoMaperRepository.convertirAEntidad(platosEntityDomain);
+        int filas = jdbcTemplate.update(sql, platoEntity.getDescripcion_plato(), platoEntity.getNombre_plato(), platoEntity.getId_categoria(), platoEntity.getPrecio_plato());
+        return filas > 0;
     }
 
     @Override
-    public void ActualizarPlato(com.osu.proyecto_restaurante.domain.entityDomain.Platos.PlatosEntityDomain platosEntityDomain) {
-        // TODO Auto-generated method stub
-        
+    public boolean ActualizarPlato(PlatosEntityDomain platosEntityDomain) {
+        String sql = "update plato set descripcion_plato = ?, nombre_plato = ?, id_categoria = ?, precio_plato = ? where id_plato = ?;";
+        PlatoEntity platoEntity = platoMaperRepository.convertirAEntidad(platosEntityDomain);
+        int filas = jdbcTemplate.update(sql, platoEntity.getDescripcion_plato(), platoEntity.getNombre_plato(), platoEntity.getId_categoria(), platoEntity.getPrecio_plato(), platoEntity.getId_plato());
+        return filas > 0;
     }
 
     @Override
-    public void EliminarPlato(com.osu.proyecto_restaurante.domain.entityDomain.Platos.PlatosEntityDomain platosEntityDomain) {
-        // TODO Auto-generated method stub
-        
+    public boolean EliminarPlato(int id_plato) {
+        String sql = "Delete from plato where id_plato = ?;";
+        int filas = jdbcTemplate.update(sql, id_plato);
+        return filas > 0;
     }
     @Override
     public PlatosEntityDomain ObtenerPlato(String nombre_plato) {

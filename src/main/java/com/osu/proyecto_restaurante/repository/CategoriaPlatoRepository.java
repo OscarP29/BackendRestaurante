@@ -67,8 +67,13 @@ public class CategoriaPlatoRepository implements CategoriaPlatoDomain {
 
     @Override
     public int ObtenerId(String tipo_categoria) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'ObtenerId'");
+        try{
+            String sql = "Select id_categoria, tipo_categoria from categoria_plato Where tipo_categoria = ?";
+            CategoriaPlatoEntity categoriaPlatoEntity = jdbcTemplate.queryForObject(sql, categoriaPlatoMapper, tipo_categoria);
+            return categoriaPlatoEntity.getId_categoria();
+        }catch (Exception e) {
+            return -1;
+        }
     }
 
 }

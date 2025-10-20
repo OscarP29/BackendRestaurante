@@ -9,6 +9,7 @@ import com.osu.proyecto_restaurante.UserCases.Mapeadores.Interfaces.PlatosMapead
 import com.osu.proyecto_restaurante.domain.CategoriaPlatoDomain;
 import com.osu.proyecto_restaurante.domain.PlatosDomain;
 import com.osu.proyecto_restaurante.domain.entityDomain.Platos.PlatosEntityDomain;
+import com.osu.proyecto_restaurante.entrypoint.DTOs.Entrada.PlatoEntradaDTO;
 import com.osu.proyecto_restaurante.entrypoint.DTOs.Salida.CategoriasPlatoSalidaDTO;
 import com.osu.proyecto_restaurante.entrypoint.DTOs.Salida.PlatosSalidaDTO;
 
@@ -35,6 +36,17 @@ public class PlatosUserCases {
     }
     public List<CategoriasPlatoSalidaDTO> obtenerCategorias(){
         return platosMapeadorUserCase.convertirListCategoriaDTO(categoriaPlatoDomain.ObtenerCategorias());
+    }
+    public boolean insertarPlato(PlatoEntradaDTO platoEntradaDTO) {
+        int id_categoria = categoriaPlatoDomain.ObtenerId(platoEntradaDTO.getCategoria_plato());
+        return platosDomain.InsertarPlato(platosMapeadorUserCase.convertirADominio(platoEntradaDTO, id_categoria));
+    }
+    public boolean actualizarPlato(PlatoEntradaDTO platoEntradaDTO) {
+        int id_categoria = categoriaPlatoDomain.ObtenerId(platoEntradaDTO.getCategoria_plato());
+        return platosDomain.ActualizarPlato(platosMapeadorUserCase.convertirADominio(platoEntradaDTO, id_categoria));
+    }
+    public boolean eliminarPlato(int id_plato) {
+        return platosDomain.EliminarPlato(id_plato);
     }
 
 }

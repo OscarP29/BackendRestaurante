@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.osu.proyecto_restaurante.UserCases.PlatosUserCases;
 import com.osu.proyecto_restaurante.domain.UsuarioDomain;
+import com.osu.proyecto_restaurante.entrypoint.DTOs.Entrada.CategoriaPlatoEntradaDTO;
 import com.osu.proyecto_restaurante.entrypoint.DTOs.Entrada.PlatoEntradaDTO;
 import com.osu.proyecto_restaurante.entrypoint.DTOs.Entrada.UsuarioLoginDTO;
 import com.osu.proyecto_restaurante.entrypoint.DTOs.Salida.CategoriasPlatoSalidaDTO;
@@ -36,14 +37,10 @@ public class UsuarioEntryPoint {
         }
         return ResponseEntity.status(401).body(Map.of("login", false, "message", "Credenciales invalidas"));
     }
-    
+    //Method CRUD Platos
     @GetMapping("/Platos")
     public List<PlatosSalidaDTO> ObtenerPlatos() {
         return platosUserCases.obtenerPlatos() ;
-    }
-    @GetMapping("/Categorias")
-    public List<CategoriasPlatoSalidaDTO> ObtenerCategorias() {
-        return platosUserCases.obtenerCategorias();
     }
     @PostMapping("/PlatosInsertar")
     public ResponseEntity<?> InsertarPlato(@RequestBody PlatoEntradaDTO plato) {
@@ -73,6 +70,37 @@ public class UsuarioEntryPoint {
         }
         
     }
-    
-    
+    //Method CRUD CategoriaPlato
+    @GetMapping("/Categorias")
+    public List<CategoriasPlatoSalidaDTO> ObtenerCategorias() {
+        return platosUserCases.obtenerCategorias();
+    }
+    @PostMapping("/CategoriasInsertar")
+    public ResponseEntity<?> InsertarCategoria(@RequestBody CategoriaPlatoEntradaDTO categoria) {
+        boolean resultado = platosUserCases.insertarCategoria(categoria);
+        if (resultado){
+            return ResponseEntity.ok(Map.of("insertado", true));
+        } else {
+            return ResponseEntity.status(400).body(Map.of("insertado", false, "message", "Error al insertar la categoria"));
+        }
+    }
+    @PostMapping("/CategoriasActualizar")
+    public ResponseEntity<?> ActualizarCategoria(@RequestBody CategoriaPlatoEntradaDTO categoria) {
+        boolean resultado = platosUserCases.actualizarCategoria(categoria);
+        if (resultado){
+            return ResponseEntity.ok(Map.of("actualizado", true));
+        } else {
+            return ResponseEntity.status(400).body(Map.of("actualizado", false, "message", "Error al actualizar la categoria"));
+        }
+    }
+    @PostMapping("/CategoriasEliminar")
+    public ResponseEntity<?> EliminarCategoria(@RequestBody CategoriaPlatoEntradaDTO categoria) {   
+        boolean resultado = platosUserCases.eliminarCategoria(categoria.getId_categoria());
+        if (resultado){
+            return ResponseEntity.ok(Map.of("eliminado", true));
+        } else {
+            return ResponseEntity.status(400).body(Map.of("eliminado", false, "message", "Error al eliminar la categoria"));
+        }
+        
+    }
 }

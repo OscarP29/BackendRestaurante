@@ -9,6 +9,7 @@ import com.osu.proyecto_restaurante.UserCases.Mapeadores.Interfaces.PlatosMapead
 import com.osu.proyecto_restaurante.domain.CategoriaPlatoDomain;
 import com.osu.proyecto_restaurante.domain.PlatosDomain;
 import com.osu.proyecto_restaurante.domain.entityDomain.Platos.PlatosEntityDomain;
+import com.osu.proyecto_restaurante.entrypoint.DTOs.Entrada.CategoriaPlatoEntradaDTO;
 import com.osu.proyecto_restaurante.entrypoint.DTOs.Entrada.PlatoEntradaDTO;
 import com.osu.proyecto_restaurante.entrypoint.DTOs.Salida.CategoriasPlatoSalidaDTO;
 import com.osu.proyecto_restaurante.entrypoint.DTOs.Salida.PlatosSalidaDTO;
@@ -24,6 +25,7 @@ public class PlatosUserCases {
     private final PlatosDomain platosDomain;
     private final CategoriaPlatoDomain categoriaPlatoDomain;
 
+    //Platos Funciones CRUD
     public List<PlatosSalidaDTO> obtenerPlatos() {
         List<PlatosEntityDomain> listaPLatos = platosDomain.ObtenerPlatos();
         List<PlatosSalidaDTO> listaPlatosDTO = new ArrayList<>();
@@ -33,9 +35,6 @@ public class PlatosUserCases {
             listaPlatosDTO.add(plato);
         }
         return listaPlatosDTO;
-    }
-    public List<CategoriasPlatoSalidaDTO> obtenerCategorias(){
-        return platosMapeadorUserCase.convertirListCategoriaDTO(categoriaPlatoDomain.ObtenerCategorias());
     }
     public boolean insertarPlato(PlatoEntradaDTO platoEntradaDTO) {
         int id_categoria = categoriaPlatoDomain.ObtenerId(platoEntradaDTO.getCategoria_plato());
@@ -49,4 +48,17 @@ public class PlatosUserCases {
         return platosDomain.EliminarPlato(id_plato);
     }
 
+    //CategoriaPlato Funciones CRUD
+    public List<CategoriasPlatoSalidaDTO> obtenerCategorias(){
+        return platosMapeadorUserCase.convertirListCategoriaDTO(categoriaPlatoDomain.ObtenerCategorias());
+    }
+    public boolean insertarCategoria(CategoriaPlatoEntradaDTO categoriaPlatoEntradaDTO) {
+        return categoriaPlatoDomain.InsertarCategoria(platosMapeadorUserCase.convertirCategoriaADominio(categoriaPlatoEntradaDTO));
+    }
+    public boolean actualizarCategoria(CategoriaPlatoEntradaDTO categoriaPlatoEntradaDTO) {
+        return categoriaPlatoDomain.ActualizarCategoria(platosMapeadorUserCase.convertirCategoriaADominio(categoriaPlatoEntradaDTO));
+    }
+    public boolean eliminarCategoria(int id_categoria) {
+        return categoriaPlatoDomain.EliminarCategoria(id_categoria);
+    }
 }

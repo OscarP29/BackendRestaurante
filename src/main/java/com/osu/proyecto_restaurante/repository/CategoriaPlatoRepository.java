@@ -30,21 +30,26 @@ public class CategoriaPlatoRepository implements CategoriaPlatoDomain {
     private final RowMapper<CategoriaPlatoEntity> categoriaPlatoMapper = this::mapeadorCategoriaPlatoEntity;
 
     @Override
-    public void InsertarCategoria(CategoriaPlatoEntityDomain categoriaEntityDomain) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'InsertarCategoria'");
+    public boolean InsertarCategoria(CategoriaPlatoEntityDomain categoriaEntityDomain) {
+        String sql = "insert into categoria_plato(tipo_categoria) values(?);";
+        CategoriaPlatoEntity categoriaPlatoEntity = categoriaPlatoMaperRepository.convertirAEntidad(categoriaEntityDomain);
+        int filas = jdbcTemplate.update(sql, categoriaPlatoEntity.getTipo_categoria());
+        return filas > 0;
     }
 
     @Override
-    public void ActualizarCategoria(CategoriaPlatoEntityDomain categoriaEntityDomain) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'ActualizarCategoria'");
+    public boolean ActualizarCategoria(CategoriaPlatoEntityDomain categoriaEntityDomain) {
+        String sql = "update categoria_plato set tipo_categoria = ? where id_categoria = ?;";
+        CategoriaPlatoEntity categoriaPlatoEntity = categoriaPlatoMaperRepository.convertirAEntidad(categoriaEntityDomain);
+        int filas = jdbcTemplate.update(sql, categoriaPlatoEntity.getTipo_categoria(), categoriaPlatoEntity.getId_categoria());
+        return filas > 0;
     }
 
     @Override
-    public void EliminarCategoria(int id_categoria) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'EliminarCategoria'");
+    public boolean EliminarCategoria(int id_categoria) {
+        String sql = "Delete from categoria_plato where id_categoria = ?;";
+        int filas = jdbcTemplate.update(sql, id_categoria);
+        return filas > 0;
     }
 
     @Override
